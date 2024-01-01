@@ -36,6 +36,7 @@ const schema = new mongoose.Schema({
     notes: {
         type: String,
         default: "",
+        trim: true,
     },
     dateSelected: {
         type: String,
@@ -44,6 +45,7 @@ const schema = new mongoose.Schema({
     refuseReason: {
         type: String,
         default: null,
+        trim: true,
     },
 }, { timestamps: true, });
 schema.pre('save', function (next) {

@@ -4,7 +4,8 @@ const { increment, decrement } = require('./Counter');
 const schema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, "First Name is required!"]
+        required: [true, "First Name is required!"],
+        trim: true,
     },
     number: {
         type: Number,
@@ -13,30 +14,36 @@ const schema = new mongoose.Schema({
     email: {
         type: String,
         unique: true,
-        required: [true, "Email is required!"]
+        required: [true, "Email is required!"],
+        trim: true,
     },
     password: {
         type: String,
-        required: [true, "Password is required!"]
+        required: [true, "Password is required!"],
+        trim: true,
     },
     address: {
         type: String,
         default: '',
         maxLength: 200,
+        trim: true,
     },
     city: {
         type: String,
         default: '',
         maxLength: 100,
+        trim: true,
     },
     street: {
         type: String,
         default: '',
         maxLength: 100,
+        trim: true,
     },
     phone: {
         type: String,
-        required: [true, "Phone is required!"]
+        required: [true, "Phone is required!"],
+        trim: true,
     },
     gender: {
         type: Boolean,

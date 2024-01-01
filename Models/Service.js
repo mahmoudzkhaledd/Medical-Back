@@ -22,6 +22,7 @@ const schema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "Name is required !"],
+        trim: true,
     },
     rating: {
         type: Number,
@@ -30,6 +31,7 @@ const schema = new mongoose.Schema({
     category: {
         type: String,
         required: [true, "Category is required !"],
+        trim: true,
     },
     price: {
         type: Number,
@@ -42,10 +44,12 @@ const schema = new mongoose.Schema({
     description: {
         type: String,
         default: "",
+        trim: true,
     },
     subDescription: {
         type: String,
         default: "",
+        trim: true,
     },
     active: {
         type: Boolean,

@@ -5,11 +5,12 @@ const { increment } = require('./Counter');
 const schema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, "First Name is required!"]
+        required: [true, "First Name is required!"],
+        trim: true,
     },
     email: {
         type: String,
-
+        trim: true,
         required: [true, "Email is required!"]
     },
     number: {
@@ -19,6 +20,7 @@ const schema = new mongoose.Schema({
     username: {
         type: String,
         index: true,
+        trim: true,
         required: [true, "Email is required!"]
     },
     suspended: {
@@ -31,14 +33,17 @@ const schema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, "Password is required!"]
+        required: [true, "Password is required!"],
+        trim: true,
     },
     pinNumber: {
         type: String,
-        required: [true, "Pin number is required!"]
+        required: [true, "Pin number is required!"],
+        trim: true,
     },
     phone: {
         type: String,
+        trim: true,
         required: [true, "Phone is required!"]
     },
     roles: {
