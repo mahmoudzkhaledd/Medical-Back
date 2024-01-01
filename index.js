@@ -13,8 +13,7 @@ const sanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean')
 app.use(cors({
   origin: [
-    'http://localhost:3001',
-    'http://192.168.1.8:3001',
+    'https://medical-front-eight.vercel.app',
   ],
   credentials: true,
   exposedHeaders: ["set-cookie"],
