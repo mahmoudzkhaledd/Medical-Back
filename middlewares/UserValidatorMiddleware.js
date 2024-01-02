@@ -27,7 +27,7 @@ exports.userValidatorMiddleware = async (req, res, next) => {
 
         const userModel = jwt.verify(token, process.env.ACCESS_TOKEN_KEY);
         const user = await User.findById(userModel.id);
-        const emailVer = (!matchRoute(req.originalUrl) && !user.verifiedEmail && req.originalUrl != '/verify-account');
+        const emailVer = (!matchRoute(req.originalUrl) && !user.verifiedEmail && req.originalUrl != '/verify-account' && req.originalUrl != '/verify-account/resend');
         if (user == null || user.banned || emailVer) {
             return res.sendStatus(403);
         } else {

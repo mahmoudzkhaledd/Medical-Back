@@ -23,12 +23,13 @@ async function sendEmail(user) {
 }
 exports.resendEmail = async (req, res, next) => {
 
-    const user = userModel;
-    const email = await EmailVerification.findOne({ userTo: user._id });
+    const user = res.locals.userModel;
+    const email = await EmailVerification
+        .findOne({ userTo: user._id });
     if (email == null) {
         const code = await sendEmail(user)
         const mail = await EmailVerification.create({
-            userTo: userId,
+            userTo: user._id,
             code: code,
             resendTrails: configs.defaultSendTrails,
         }).catch(err => null);
@@ -47,9 +48,9 @@ exports.resendEmail = async (req, res, next) => {
                 msg: "تم الارسال بنجاح"
             });
         }
-        return res.status(401).json({ 
-            msg: `الرجاء الانتظار ${(configs.waitingBetweenEndTrails - diff).toFixed(0) } يوم حتى يتم الارسال من جديد`,
-         
+        return res.status(401).json({
+            msg: `الرجاء الانتظار ${(configs.waitingBetweenEndTrails - diff).toFixed(0)} يوم حتى يتم الارسال من جديد`,
+
         });
     }
     const updatedAt = new Date(email.updatedAt);
@@ -58,7 +59,7 @@ exports.resendEmail = async (req, res, next) => {
     if (diff < configs.waitingBetweenSends) {
         return res.status(405).json({
             msg: `الرجاء الانتظار ${(60 - diff).toFixed(0)} ثانية حتى يتم الارسال من جديد`,
-          
+
         });
     }
     const code = await sendEmail(user);

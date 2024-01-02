@@ -51,7 +51,10 @@ exports.verifyEmail = asyncHandeler(async (req, res, next) => {
     userModel.verifiedEmail = true;
 
     await userTo.save();
-    const token = jwt.sign(userModel, process.env.ACCESS_TOKEN_KEY);
+    const token = jwt.sign({
+        "id": userModel._id,
+        "verifiedEmail": userModel.verifiedEmail 
+    }, process.env.ACCESS_TOKEN_KEY);
     res.setHeader('set-cookie', [`token=Bearer ${token}; samesite=none; secure`])
     return res.status(200).json({
         user: userTo,
