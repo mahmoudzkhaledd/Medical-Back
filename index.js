@@ -14,11 +14,12 @@ const xss = require('xss-clean')
 app.use(cors({
   origin: [
     'https://medical-front-eight.vercel.app',
+    'http://localhost:3001',
   ],
   credentials: true,
   exposedHeaders: ["set-cookie"],
 }));
-app.set('trust proxy', 1);
+//app.set('trust proxy', 1);
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 350,

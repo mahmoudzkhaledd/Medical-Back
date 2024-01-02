@@ -16,7 +16,7 @@ function matchRoute(incomingRoute) {
 
 exports.adminValidatorMiddleware = async (req, res, next) => {
     try {
-        const token = (req.cookies.a_token || req.headers.a_token).split(' ')[1];
+        const token = (req.headers.a_token).split(' ')[1];
         
         const adminModel = jwt.verify(token, process.env.ADMIN_ACCESS_TOKEN_KEY);
         if (adminModel.key != process.env.ADMINKEY || (req.cookies.a_token || req.headers.a_token).split(' ')[0] != "Bearer") {
