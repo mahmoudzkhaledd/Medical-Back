@@ -6,9 +6,7 @@ exports.updateOrder = asyncHandeler(
     async (req, res, next) => {
         const userModel = res.locals.userModel;
         const { notes } = req.body;
-        if (`${notes}`.length > 200 ) {
-            return res.status(400).json({ msg: "يجب أن تكون الملاحظات بين 0 و 200 حرف!" });
-        }
+        
         const orderId = req.params.id;
         if (orderId == null || !ObjectId.isValid(orderId)) {
             return res.status(400).json({ msg: "لا يمكننا ايجاد الطلب المقصودة" });

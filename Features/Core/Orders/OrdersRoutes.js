@@ -10,7 +10,7 @@ appRouter.post('/services/:id/order', validatorOrderService, orderService);
 
 appRouter.route('/orders/:id').get(getOrder);
 appRouter.post('/orders/:id/cancel', cancelOrder);
-appRouter.put('/orders/:id', updateOrder);
+appRouter.put('/orders/:id',validatorOrderService, updateOrder);
 appRouter.route('/orders').get(getUserOrders);
 
 module.exports = appRouter;  
