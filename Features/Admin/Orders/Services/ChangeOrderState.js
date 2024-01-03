@@ -29,14 +29,14 @@ exports.changeOrderState = asyncHandeler(
                     pendingOrders: -1,
                 },
             });
-            await decrement('orders');
+
         } else if (decreaseStates.includes(order.status) && !decreaseStates.includes(status)) {
             await Service.updateOne({ _id: order.serviceId }, {
                 $inc: {
                     pendingOrders: 1,
                 },
             });
-            await increment('orders');
+
         }
 
         res.sendStatus(order.modifiedCount != 0 ? 200 : 400);
