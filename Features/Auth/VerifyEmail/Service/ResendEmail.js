@@ -12,7 +12,7 @@ async function sendEmail(user) {
         const hashedCode = await bcrypt.hash(`${code}`, codeSalt);
         await sendVerificationEmail(
             user.email,
-            `${user.firstName} ${user.lastName}`,
+            user.name,
             code,
             hashedCode,
             user._id,
@@ -24,8 +24,10 @@ async function sendEmail(user) {
 exports.resendEmail = async (req, res, next) => {
 
     const user = res.locals.userModel;
-    const email = await EmailVerification
-        .findOne({ userTo: user._id });
+    if (user.verifiedEmail) {
+        return res.status(406).json({ msg: "الحساب مفعل بالفعل" });
+    }
+    const email = await EmailVerification.findOne({ userTo: user._id });
     if (email == null) {
         const code = await sendEmail(user)
         const mail = await EmailVerification.create({
@@ -36,21 +38,8 @@ exports.resendEmail = async (req, res, next) => {
         return res.sendStatus(200);
     }
     if (email.resendTrails - 1 < 0) {
-        const updatedAt = new Date(email.updatedAt);
-        const now = Date.now();
-        const diff = (now - updatedAt) / (1000);
-        if (diff >= configs.waitingBetweenEndTrails) {
-            const code = await sendEmail(user);
-            email.resendTrails = configs.defaultSendTrails;
-            email.code = code;
-            await email.save();
-            return res.status(200).json({
-                msg: "تم الارسال بنجاح"
-            });
-        }
         return res.status(401).json({
-            msg: `الرجاء الانتظار ${(configs.waitingBetweenEndTrails - diff).toFixed(0)} يوم حتى يتم الارسال من جديد`,
-
+            msg: "لقد استنفذت عدد المحاولات المسموح بها, الرجاء التواصل مع صاحب الموقع",
         });
     }
     const updatedAt = new Date(email.updatedAt);
@@ -59,7 +48,6 @@ exports.resendEmail = async (req, res, next) => {
     if (diff < configs.waitingBetweenSends) {
         return res.status(405).json({
             msg: `الرجاء الانتظار ${(60 - diff).toFixed(0)} ثانية حتى يتم الارسال من جديد`,
-
         });
     }
     const code = await sendEmail(user);
@@ -67,7 +55,7 @@ exports.resendEmail = async (req, res, next) => {
     email.resendTrails--;
     await email.save();
     return res.status(200).json({
-        msg: "تم الارسال بنجاح"
+        message: "تم الارسال بنجاح"
     });
 }
 function generateRandomNumber() {

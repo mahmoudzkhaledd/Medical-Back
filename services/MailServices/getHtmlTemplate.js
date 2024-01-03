@@ -1,57 +1,91 @@
 exports.htmlEmailPage = function (user, digits) {
-    return `<!DOCTYPE html>
+    return `
+    
+    <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Verify Your Account - Action Required</title>
+        <title>تفعيل حسابك</title>
         <style>
+            *{
+                direction:rtl;
+            }
             body {
-                font-family: Arial, sans-serif;
-                color: #333;
-                line-height: 1.6;
+                 font-family: 'Cairo', sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            }
+    
+            .container {
                 max-width: 600px;
-                margin: 0 auto;
-                padding: 20px;
-            }
-            h1 {
-                color: #007BFF;
-                text-align: center;
-            }
-            .verification-code {
-                background-color: #007BFF;
-                color: #fff;
-                font-size: 24px;
-                text-align: center;
-                padding: 10px 20px;
-                border-radius: 5px;
                 margin: 20px auto;
-                max-width: 200px;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
-            .instructions {
-                text-align: center;
-                margin-bottom: 30px;
+    
+            h2 {
+                color: #333;
             }
-            .support {
-                text-align: center;
-                margin-top: 30px;
-                font-size: 14px;
+    
+            p {
+                color: #666;
+                line-height: 1.6;
             }
-            .support a {
+    
+            a {
                 color: #007BFF;
                 text-decoration: none;
+                font-weight: bold;
+            }
+    
+            .activation-code {
+                font-size: 24px;
+                font-weight: bold;
+                color: #28a745;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border: 1px solid #ced4da;
+                border-radius: 5px;
+                margin: 20px 0;
+            }
+    
+            .btn {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #007BFF;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 5px;
             }
         </style>
     </head>
     <body>
-        <h1>Verify Your Account - Action Required</h1>
-        <p>Dear ${user},</p>
-        <p>Thank you for choosing our app! To ensure the security of your account, we require a quick verification process. Please follow the instructions below to complete the verification:</p>
-        <div class="verification-code">${digits}</div>
-        <p class="instructions">Please enter the above 6-digit code in the app when prompted.</p>
-        <p>Please note that this code will expire after 15 minutes. If you do not attempt verification within this time frame, you may need to request a new code.</p>
-        <p>If you didn't initiate this verification process, please disregard this email. Your account may have been registered with an incorrect email address.</p>
+        <div class="container">
+            <h2>تفعيل حسابك الجديد</h2>
+            <p>مرحبًا ${user},</p>
+            <p>شكرًا لاختيارك إنشاء حساب جديد معنا. لإكمال عملية التسجيل، يُرجى إدخال رمز التفعيل المؤلف من 6 أرقام الذي تم إرساله إلى بريدك الإلكتروني المسجل.</p>
+            
+            <div class="activation-code">رمز التفعيل: ${digits}</div>
+    
+            <p>يرجى اتباع الخطوات التالية:</p>
+            <ol>
+                <li>انسخ رمز التفعيل المذكور أعلاه.</li>
+                <li>قم بتسجيل الدخول إلى حسابك الجديد.</li>
+                <li>ادخل رمز التفعيل في الحقل المخصص له.</li>
+            </ol>
+    
+            <p>إذا واجهتك أي مشكلة أو كنت بحاجة إلى مساعدة، يرجى الاتصال بفريق الدعم الفني عبر البريد الإلكتروني <a href="[عنوان البريد الإلكتروني لفريق الدعم]">[عنوان البريد الإلكتروني لفريق الدعم]</a>.</p>
+    
+            <p>نتمنى لك تجربة ممتعة مع ميديكال.</p>
+    
+    
+        </div>
     </body>
     </html>
     `;

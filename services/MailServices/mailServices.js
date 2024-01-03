@@ -43,7 +43,7 @@ exports.sendVerificationEmail = async (emailTo, userName, code, hashedCode, user
         transporter.sendMail({
             from: email,
             to: emailTo,
-            subject: "Hafazni, Verify your account",
+            subject: "ميديكال, تفعيل الحساب",
             html: htmlEmailPage(userName, code),
         }, async (err, info) => {
             if (err) return rej(err);

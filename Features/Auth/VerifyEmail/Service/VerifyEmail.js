@@ -8,8 +8,6 @@ const asyncHandeler = require('express-async-handler');
 exports.verifyEmail = asyncHandeler(async (req, res, next) => {
     const { code } = req.body;
     const userModel = res.locals.userModel;
-
-
     const userTo = userModel;
     if (userTo == null) {
         await EmailVerification.deleteOne({ userTo: userModel._id, });
@@ -17,14 +15,16 @@ exports.verifyEmail = asyncHandeler(async (req, res, next) => {
     }
     if (userTo.verifiedEmail == true) {
         await EmailVerification.deleteOne({ userTo: userTo._id, });
-        userModel.verifiedEmail = true;
+        userTo.verifiedEmail = true;
 
         const token = jwt.sign({
-            "id": userModel._id,
-            "verifiedEmail": userModel.verifiedEmail 
+            "id": userTo._id,
+            "verifiedEmail": userTo.verifiedEmail,
         }, process.env.ACCESS_TOKEN_KEY);
-        res.setHeader('set-cookie', [`token=Bearer ${token}; samesite=none; secure`])
-        return next(new ApiError('المستخدم مفعل الحساب بالفعل', 405))
+        return res.status(200).json({
+            user: userTo,
+            token,
+        });
     }
     const email = await EmailVerification.findOne({ userTo: userTo._id, });
     if (email == null) {
@@ -48,14 +48,11 @@ exports.verifyEmail = asyncHandeler(async (req, res, next) => {
     await email.deleteOne({});
 
     userTo.verifiedEmail = true;
-    userModel.verifiedEmail = true;
-
     await userTo.save();
     const token = jwt.sign({
-        "id": userModel._id,
-        "verifiedEmail": userModel.verifiedEmail 
+        "id": userTo._id,
+        "verifiedEmail": userTo.verifiedEmail
     }, process.env.ACCESS_TOKEN_KEY);
-    res.setHeader('set-cookie', [`token=Bearer ${token}; samesite=none; secure`])
     return res.status(200).json({
         user: userTo,
         token,
