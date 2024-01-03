@@ -10,7 +10,7 @@ const { configsValidator } = require('../middlewares/ConfigsMiddleware');
 
 
 appRoute.use("/admin", adminValidatorMiddleware, adminRoutes);
-
+ 
 appRoute.use(configsValidator);
 appRoute.use(userValidatorMiddleware);
 appRoute.use(userRoutes);
