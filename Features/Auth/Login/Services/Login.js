@@ -20,7 +20,7 @@ exports.loginUser = asyncHandeler(async (req, res, next) => {
         "verifiedEmail": user.verifiedEmail,
     };
     const token = await jwt.sign(tokenModel, process.env.ACCESS_TOKEN_KEY);
-    console.log(token);
+
     return res.status(200).json({
         user,
         token,

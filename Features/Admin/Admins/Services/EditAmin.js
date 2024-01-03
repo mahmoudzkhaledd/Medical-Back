@@ -30,9 +30,7 @@ exports.editAdmin = asyncHandeler(
             ],
             _id: { $ne: adminId }
         });
-        console.log(count);
         if (count.length != 0) {
-            console.log('got itttttttttt');
             return res.status(404).json({ msg: "هناك مدير اخر بنفس اسم المستخدم !" });
         }
         try {

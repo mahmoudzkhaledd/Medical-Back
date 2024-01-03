@@ -23,7 +23,6 @@ exports.addAdmin = asyncHandeler(
                 },
             ],
         });
-        console.log(count);
         if (count.length != 0) {
             return res.status(404).json({ msg: "هناك مدير اخر بنفس اسم المستخدم أو بنفس الايميل !" });
         }
