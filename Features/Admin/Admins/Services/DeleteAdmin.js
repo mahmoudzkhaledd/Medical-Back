@@ -17,7 +17,7 @@ exports.deleteAdmin = asyncHandeler(
         if (admin.master) {
             return res.status(400).json({ msg: "لا يمكن حذف الحساب الاساسي" });
         }
-        const count = await Order.count({
+        const count = await Order.findOne({
             responsableAdmins: {
                 $in: [admin._id],
             },
@@ -25,7 +25,7 @@ exports.deleteAdmin = asyncHandeler(
                 $nin: ['done','refused','canceled']
             }
         })
-        if (count != 0) {
+        if (count != null) {
             return res.status(400).json({ msg: "هناك طلبات قائمة تعتمد على هذا المدير" });
         }
         await Order.updateMany({
