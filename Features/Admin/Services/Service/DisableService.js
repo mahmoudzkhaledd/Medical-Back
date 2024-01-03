@@ -46,7 +46,12 @@ exports.disableService = asyncHandeler(
                     status: {
                         $ne: "refused"
                     },
-                }
+                },
+                {
+                    status: {
+                        $ne: "done"
+                    },
+                },
             ],
         });
         if (dependOrdersCount != null) {

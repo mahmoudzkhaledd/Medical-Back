@@ -46,15 +46,24 @@ exports.deleteService = asyncHandeler(
                     status: {
                         $ne: "refused"
                     },
-                }
+                },
+                {
+                    status: {
+                        $ne: "done"
+                    },
+                },
             ],
         });
         if (dependOrdersCount != null) {
             return res.status(404).json({ msg: "هناك طلبات قائمة تعتمد على هذه الخدمة." })
         }
         if (service.thumbnailImage != null) {
-            await cloudinary.uploader.destroy(service.thumbnailImage.public_id);
-            await cloudinary.api.delete_folder(`services/${service._id}`);
+            const r1 = await cloudinary.uploader.destroy(service.thumbnailImage.public_id);
+            if (r1.result != 'ok') {
+                return res.status(405).json({ msg: "يوجد مشكلة بحذف الصورة الرجاء المحاولة مرة اخرى" })
+            }
+            const r2 = await cloudinary.api.delete_folder(`services/${service._id}`);
+            console.log({ r1, r2 });
             await Image.deleteOne({
                 _id: service.thumbnailImage._id,
             });
