@@ -25,7 +25,7 @@ module.exports = async function configDbConnection() {
                 phone: "01145243378",
             });
         }
-        if (await Config.count() == 0) { 
+        if (await Config.findOne() == null) { 
             await Config.create({});
         }
 
