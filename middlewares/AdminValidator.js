@@ -34,6 +34,6 @@ exports.adminValidatorMiddleware = async (req, res, next) => {
         if (matchRoute(req.originalUrl)) {
             return next();
         }
-        return res.status(455).json({ "msg": "Unauthorized !!" });
+        return res.status(455).json({ "message": "Unauthorized !!" });
     }
 }

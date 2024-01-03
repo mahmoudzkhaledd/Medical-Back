@@ -14,6 +14,6 @@ exports.tokenValidator = asyncHandeler(async (req, res, next) => {
         return next();
     } catch (err) {
 
-        return res.status(401).json({ "msg": "Unauthorized !" });
+        return res.status(401).json({ "message": "Unauthorized !" });
     }
 })
