@@ -13,7 +13,7 @@ exports.getAdmin = asyncHandeler(
             pinNumber: 0,
         });
         if (admin == null) {
-            return res.status(400).json({ msg: "لم نتمكن من ايجاد المستخدم." });
+            return res.status(400).json({ msg: "لم نتمكن من ايجاد المدير." });
         }
 
 

@@ -26,7 +26,6 @@ exports.cancelOrder = asyncHandeler(
                     pendingOrders: -1,
                 },
             });
-            await decrement('orders');
             order.status = 'canceled';
         } else {
             await Service.updateOne({ _id: order.serviceId }, {
@@ -34,7 +33,6 @@ exports.cancelOrder = asyncHandeler(
                     pendingOrders: 1,
                 },
             });
-            await increment('orders');
             order.status = 'pending';
         }
         await order.save();

@@ -23,6 +23,9 @@ exports.changeOrderState = asyncHandeler(
             dateSelected: dateSelected != null ? `${dateSelected.toLocaleDateString()}`.split('T')[0] : null,
             refuseReason
         });
+        if (order == null) {
+            return res.status(404).json({ msg: "لم نتمكن من ايجاد الطلب" });
+        }
         if (!decreaseStates.includes(order.status) && decreaseStates.includes(status)) {
             await Service.updateOne({ _id: order.serviceId }, {
                 $inc: {

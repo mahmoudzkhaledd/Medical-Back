@@ -13,7 +13,7 @@ exports.addAdmin = asyncHandeler(
                 return res.status(400).json({ msg: "من فضلك أدخل كل الصلاحيات المطلوبة" })
             }
         }
-        const count = await Admin.find({
+        const count = await Admin.findOne({
             $or: [
                 {
                     username: username,
@@ -23,7 +23,7 @@ exports.addAdmin = asyncHandeler(
                 },
             ],
         });
-        if (count.length != 0) {
+        if (count != null) {
             return res.status(404).json({ msg: "هناك مدير اخر بنفس اسم المستخدم أو بنفس الايميل !" });
         }
         try {
