@@ -63,7 +63,7 @@ exports.deleteService = asyncHandeler(
                 return res.status(405).json({ msg: "يوجد مشكلة بحذف الصورة الرجاء المحاولة مرة اخرى" })
             }
             const r2 = await cloudinary.api.delete_folder(`services/${service._id}`);
-            console.log({ r1, r2 });
+
             await Image.deleteOne({
                 _id: service.thumbnailImage._id,
             });
