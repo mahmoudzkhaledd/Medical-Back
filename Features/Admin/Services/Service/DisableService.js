@@ -34,7 +34,7 @@ exports.disableService = asyncHandeler(
             await service.save();
             return res.sendStatus(200);
         }
-        const dependOrdersCount = await Order.count({
+        const dependOrdersCount = await Order.findOne({
             serviceId: serviceId,
             $and: [
                 {
@@ -49,7 +49,7 @@ exports.disableService = asyncHandeler(
                 }
             ],
         });
-        if (dependOrdersCount != 0) {
+        if (dependOrdersCount != null) {
             return res.status(404).json({ msg: "هناك طلبات قائمة تعتمد على هذه الخدمة." })
         }
         // if (service.thumbnailImage != null) {
