@@ -12,11 +12,11 @@ exports.changeAdminPassword = asyncHandeler(
         }
         const { password, pinNumber } = req.body;
 
-        const admin = await Admin.findById(adminId);
+        const admin = adminId != adminModel._id ? await Admin.findById(adminId) : adminModel;
         if (admin == null) {
             return res.status(404).json({ msg: "لم نتمكن من العثور على المدير" });
         }
-        if (!adminModel.master && admin.master) { 
+        if (!adminModel.master && admin.master) {
             return res.status(403).json({ msg: "لا يمكنك تغيير كلمة مرور الحساب الرئيسي" });
         }
         if (password != null) {

@@ -5,6 +5,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const { adminRoles } = require('../../../../ServerConfigs/AdminRoles');
 exports.editAdmin = asyncHandeler(
     async (req, res, next) => {
+        const adminModel = res.locals.adminModel;
         const adminId = req.params.id;
         if (!ObjectId.isValid(adminId)) {
             return res.status(404).json({ msg: "لم نتمكن من العثور على المدير المطلوب" });
@@ -35,7 +36,10 @@ exports.editAdmin = asyncHandeler(
             return res.status(404).json({ msg: "هناك مدير اخر بنفس اسم المستخدم !" });
         }
         try {
-            const admin = await Admin.findById(adminId);
+            const admin = adminId != adminModel._id ? await Admin.findById(adminId) : adminModel;
+            if (!adminModel.master && admin.master) {
+                return res.status(403).json({ msg: "لا يمكنك تعديل الحساب الرئيسي" });
+            }
             if (admin.master) {
                 await admin.updateOne({ name, email, username, phone });
             } else {
