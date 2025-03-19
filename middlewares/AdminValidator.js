@@ -17,14 +17,14 @@ function matchRoute(incomingRoute) {
 exports.adminValidatorMiddleware = async (req, res, next) => {
     try {
         const token = (req.headers.a_token).split(' ')[1];
-        
+
         const adminModel = jwt.verify(token, process.env.ADMIN_ACCESS_TOKEN_KEY);
         if (adminModel.key != process.env.ADMINKEY || (req.cookies.a_token || req.headers.a_token).split(' ')[0] != "Bearer") {
             throw "";
         }
-        
+
         const admin = await Admin.findById(adminModel.id);
-       
+
         if (admin == null || admin.suspended) {
             throw "";
         }
@@ -34,6 +34,6 @@ exports.adminValidatorMiddleware = async (req, res, next) => {
         if (matchRoute(req.originalUrl)) {
             return next();
         }
-        return res.status(455).json({ "message": "Unauthorized !!" });
+        return res.status(455).json({ "msg": "يرجى تسجيل الدخول أولا" });
     }
 }
