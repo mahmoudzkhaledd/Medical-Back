@@ -29,7 +29,9 @@ exports.userValidatorMiddleware = async (req, res, next) => {
         const user = await User.findById(userModel.id);
         const emailVer = (!matchRoute(req.originalUrl) && !user.verifiedEmail && req.originalUrl != '/verify-account' && req.originalUrl != '/verify-account/resend');
         if (user == null || user.banned || emailVer) {
-            return res.sendStatus(403);
+            return res.status(403).json({
+                msg: "يرجى تسجيل الدخول أولا"
+            });
         } else {
             res.locals.userModel = user;
             return next();
